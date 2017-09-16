@@ -16,5 +16,18 @@ public class Weapon
     public float WeaponNextFireRate;
     public float WeaponFireRate;
     public ParticleSystem Muzzeflash;
+    public WeaponSound[] sounds;
+}
 
+[Serializable]
+public class WeaponSound
+{
+    public string name;
+    public AudioClip clip;
+    [Range(0.1f, 1f)]
+    public float volume;
+    [Range(0.1f, 3f)]
+    public float pitch;
+    [HideInInspector]
+    public AudioSource source;
 }

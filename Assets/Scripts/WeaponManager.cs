@@ -18,6 +18,18 @@ public class WeaponManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+
+        foreach(Weapon weapon in weapons)
+        {
+            foreach(WeaponSound sound in weapon.sounds)
+            {
+                sound.source = gameObject.AddComponent<AudioSource>();
+                sound.source.clip = sound.clip;
+                sound.source.volume = sound.volume;
+                sound.source.pitch = sound.pitch;
+            }
+        }
+
         SelectWeapon();
 	}
 
@@ -65,6 +77,7 @@ public class WeaponManager : MonoBehaviour {
 
                 weapons[selectedWeapon].Muzzeflash.Play();
 
+                PlaySound("Shoot", weapons[selectedWeapon].sounds);
                 
             }
         }
@@ -82,6 +95,7 @@ public class WeaponManager : MonoBehaviour {
 
                 weapons[selectedWeapon].Muzzeflash.Play();
 
+                PlaySound("Shoot", weapons[selectedWeapon].sounds);
 
             }
         }
@@ -105,5 +119,17 @@ public class WeaponManager : MonoBehaviour {
 
         if (previousSelectedWeapon != selectedWeapon)
             SelectWeapon();
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            animator.SetTrigger("Reload");
+            PlaySound("Reload", weapons[selectedWeapon].sounds);
+        }
+    }
+
+    public void PlaySound(string name, WeaponSound[] weaponSounds)
+    {
+        WeaponSound s = Array.Find(weaponSounds, p => p.name == name);
+        s.source.Play();
     }
 }
